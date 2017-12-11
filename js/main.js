@@ -45,8 +45,83 @@ function Creature(){
 
     this.$domnode.data('jsobj', this)   //takes THIS (creature) calls is jsobj and saves it as DOMNODE
     this.$domnode.addClass('badCreatures')
-    $mainGameConsole.append(this.$domnode)
+
+
+    //ADD to board randomly
+    var num = (Math.random() * 800)
+    this.$domnode.css({
+        top: 300,
+        left: num+25,
+        
+    })
+
+    //--------------------
+
+
+    $mainGameConsole.append(this.$domnode)      // >>>>>EXECUTE <<<<<<<< //
+    animateDiv()                                // >>>>>EXECUTE <<<<<<<< //
+
+    /*---------------------- ADD GROW Feature --------------
+    $('.badCreatures').animate({ 
+                        width: "300px",
+                        height: "400px"
+                         
+                        }, 3000 , function() {
+                            $( this ).after( console.log("Animation complete." )
+                            )}
+                        ); //END Animate 
+    -------------------- END GROW Feature -----------------*/
+
 }  //END createCreature ------------------
+
+
+
+
+
+
+
+
+
+/*-----------------------RADOMIZER -------------------*/
+function makeNewPosition(){
+    
+    // Get viewport dimensions (remove the dimension of the div)
+    
+    var nh = Math.floor(Math.random() * 200);
+    var nw = Math.floor(Math.random() * 800);
+    
+    return [nh,nw];    
+    
+}
+function animateDiv(){
+    var newq = makeNewPosition();
+    var oldq = $('.badCreatures').offset();
+    var speed = calcSpeed([oldq.top, oldq.left], newq);
+    
+    $('.badCreatures').animate({ top: 200, 
+                                 left: newq[1] ,
+                                 width: "350px",
+                                 height: "450px"
+                                }, speed, function(){
+      animateDiv();        
+    });
+    
+};
+function calcSpeed(prev, next) {
+    
+    var x = Math.abs(prev[1] - next[1]);
+    var y = Math.abs(prev[0] - next[0]);
+    
+    var greatest = x > y ? x : y;
+    
+    var speedModifier = 0.3;    //change this to set DIFFICULTY -- 0.5 is difficult
+
+    var speed = Math.ceil(greatest/speedModifier);
+
+    return speed;
+
+}
+/*-----------------------END  RADOMIZER -------------------*/
 
 
 
@@ -57,9 +132,11 @@ $('body').on('click', '.badCreatures', function() {
     // $(this).data('jsobj')
     var creatureObj = $(this).data('jsobj')
     console.log(creatureObj)
+    creatureObj.reduceLife()
 })
 
+/*
 $('body').on('dblclick', '.badCreatures', function() {
     var creatureObj = $(this).data('jsobj')
     creatureObj.reduceLife()
-})
+})   */
