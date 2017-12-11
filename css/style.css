@@ -42,6 +42,7 @@ float: left;
     clear: both;
     height: 200px;
     background-color: purple;
+    position: relative;
 }
 
 
@@ -54,3 +55,50 @@ float: left;
     position: absolute;
 
 }
+
+.healthDisplay{
+
+    width:400px;
+    height: 40px;
+    background-color: lightcyan;
+    top: 0px;
+    left: 0px;
+    
+    z-index: 1;
+    position: absolute; 
+}
+
+.firstAid{
+    
+        width:75px;
+        height: 50px;
+        background-color: lightcoral;
+        
+        
+        z-index: 1;
+        position: absolute; 
+    }
+
+.nukeDisplay{
+        
+            width:65px;
+            height: 40px;
+            background-color: darkolivegreen;
+            top: 600px;
+            right: 30px;
+            
+            z-index: 1;
+            position: absolute; 
+        }
+
+
+.masterClockDisplay{
+    
+        width:200px;
+        height: 100px;
+        background-color: rgb(55, 223, 242);
+        top: 600px;
+        right: 30px;
+
+        position: absolute; 
+    }

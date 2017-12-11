@@ -3,7 +3,58 @@ console.log('Java is working!')
 
 var $mainGameConsole = $('#mainGameConsole')
 
+var masterHealth = 100;
+var $healthDisplay = $('<div>')
+$healthDisplay.addClass('healthDisplay')
+$mainGameConsole.append($healthDisplay) 
 
+var $masterClockDisplay = $('<p>')
+$masterClockDisplay.addClass('masterClockDisplay')
+$mainGameConsole.append($masterClockDisplay) 
+
+
+var $firstAid = $('<div>')
+$firstAid.addClass('firstAid')
+setInterval(function(){     //fisrt aid timer
+    displayFirstAid() 
+}, 10000);
+
+
+var $nuke = $('<div>')
+$nuke.addClass('nukeDisplay')
+setInterval(function(){     //nuke timer
+    displayNuke() 
+}, 15000);
+
+
+
+function displayFirstAid(){
+
+    $firstAid.on('click', function(){
+        masterHealth += 10
+        $firstAid.remove()
+    })
+    $mainGameConsole.append($firstAid)
+    //ADD to board randomly
+    var num = (Math.random() * 800)
+    $firstAid.css({
+        top: 600,
+        left: num+25,         
+    })
+}
+
+
+function displayNuke(){
+    
+        $nuke.on('click', function(){
+            nukeEmAll()
+            $nuke.remove()
+        })
+        $mainGameConsole.append($nuke)
+
+    }
+
+    
 
 function nukeEmAll(){
 
@@ -15,8 +66,16 @@ function nukeEmAll(){
 
 }
 
+function damageHuman(){
+    masterHealth -= 1.5
 
-function Creature(){
+    $healthDisplay.text('Health:   ' + masterHealth)
+    console.log('MASTER Health  ' + masterHealth)
+
+}
+
+
+function Creature(){              // Main CREATURE SPAWN -------------------------
     this.health = 100
     
     this.reduceLife = function() {
@@ -35,7 +94,7 @@ function Creature(){
         if(this.health <= 0) {
             $(this.$domnode).remove()
         }
-    } //END Reduce Life
+    } //END Nuke Life
     
 
     console.log('SPAWN CREATURE')
@@ -58,7 +117,7 @@ function Creature(){
     //--------------------
 
 
-    $mainGameConsole.append(this.$domnode)      // >>>>>EXECUTE <<<<<<<< //
+    $mainGameConsole.append(this.$domnode)      // >>>>>EXECUTE <<<<<<<< //     
     animateDiv()                                // >>>>>EXECUTE <<<<<<<< //
 
     /*---------------------- ADD GROW Feature --------------
@@ -103,7 +162,8 @@ function animateDiv(){
                                  width: "350px",
                                  height: "450px"
                                 }, speed, function(){
-      animateDiv();        
+      animateDiv();  // call animate again
+      damageHuman(); // damage human       
     });
     
 };
