@@ -106,29 +106,10 @@ float: left;
         position: absolute; 
     }
 
-    #readyPlayerOne{
-        
-        visibility: hidden;
-        width: 700px;
-        height: 300px;
-
-        padding-top: 100px;
-
-        background-color: rgba(0, 0, 0,0.5);
-        color: red;
-        text-align: center;
-        font-size: 25pt;
-        top: 100px;
-        left: 450px;
-        
-        z-index: 2;
-        position: absolute; 
-
-    }
-
+    
 #playerOneBoxScore{
     width: 350px;
-    height: 85px;
+    height: 95px;
     margin-left: 25px;
     margin-top: 25px;
     padding-top: 10px;
@@ -145,3 +126,159 @@ float: left;
         padding: 0px;
         color: white;
     }
+
+    #playerOneNum{
+        margin: 0px;
+        padding: 0px;
+
+    }#playerOneBoxScore{
+    width: 350px;
+    height: 95px;
+    margin-left: 25px;
+    margin-top: 25px;
+    padding-top: 10px;
+    float: left;
+
+    font-Size: 25pt;
+    color: white;
+    background-color: lightgray;
+    text-align: center;
+    }
+
+    #playerOneBoxScore p {
+        margin: 0px;
+        padding: 0px;
+        color: white;
+    }
+
+    #playerOneNum{
+        margin: 0px;
+        padding: 0px;
+
+    }
+
+    #playerTwoBoxScore{
+        width: 350px;
+        height: 95px;
+        margin-right: 25px;
+        margin-top: 25px;
+        padding-top: 10px;
+        float: right;
+    
+        font-Size: 25pt;
+        color: white;
+        background-color: lightgray;
+        text-align: center;
+        }
+    
+        #playerTwoBoxScore p {
+            margin: 0px;
+            padding: 0px;
+            color: white;
+        }
+    
+        #playerTwoNum{
+            margin: 0px;
+            padding: 0px;
+    
+        }
+
+        #readyPlayerOne{
+            
+            visibility: hidden;
+            width: 800px;
+            height: 370px;
+    
+            padding-top: 130px;
+    
+            background-color: rgba(0, 0, 0,0.5);
+            color: blue;
+            text-align: center;
+            font-size: 25pt;
+            top: 100px;
+            left: 415px;
+            
+            z-index: 2;
+            position: absolute; 
+    
+        }
+    
+        #readyPlayerTwo{
+            
+            visibility: hidden;
+            width: 800px;
+            height: 370px;
+    
+            padding-top: 130px;
+    
+            background-color: rgba(0, 0, 0,0.5);
+            color: red;
+            text-align: center;
+            font-size: 25pt;
+            top: 100px;
+            left: 415px;
+            
+            z-index: 2;
+            position: absolute; 
+    
+        }
+
+        #youDied{
+            
+            visibility: hidden;
+            width: 800px;
+            height: 370px;
+    
+            padding-top: 130px;
+    
+            background-color: rgba(0, 0, 0,0.5);
+            color: white;
+            text-align: center;
+            font-size: 25pt;
+            top: 100px;
+            left: 415px;
+            
+            z-index: 2;
+            position: absolute; 
+    
+        }
+
+        #youSurvived{
+            
+            visibility: hidden;
+            width: 800px;
+            height: 370px;
+    
+            padding-top: 130px;
+    
+            background-color: rgba(0, 0, 0,0.5);
+            color: white;
+            text-align: center;
+            font-size: 25pt;
+            top: 100px;
+            left: 415px;
+            
+            z-index: 2;
+            position: absolute; 
+    
+        }
+
+        #endOfGame{
+            
+            visibility: hidden;
+            width: 800px;
+            height: 370px;
+    
+            padding-top: 130px;
+    
+            background-color: rgba(0, 0, 0,0.5);
+            color: white;
+            text-align: center;
+            font-size: 25pt;
+            top: 100px;
+            left: 415px;
+            
+            z-index: 2;
+            position: absolute; 
+    
+        }

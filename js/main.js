@@ -32,7 +32,10 @@ var $globalPlayerOnePoints = 0
 var $globalPlayerTwoPoints = 0
 var currentPlayer = ''
 var $readyPlayerOneDiv = $('#readyPlayerOne')
-
+var $readyPlayerTwoDiv = $('#readyPlayerTwo')
+var $youDiedDiv = $('#youDied')
+var $youSurvivedDiv = $('#youSurvived')
+var $endOfGameDiv = $('#endOfGame')
 
 
 
@@ -44,21 +47,29 @@ function playerOneLoad(){
 
 function playerOneStart(){
     $readyPlayerOneDiv.css("visibility","hidden")
-    displayPoints()
-
-    new Creature()
     
-    startMasterClock()
-
+    new Creature()           // START GAME
+    
+    //startMasterClock()     //START MASTER CLOCK
 }
 
 function playerOneStop(){
     
     
-    
-    clearInterval() 
+  
+}
+function playerOneDied(){
+    $youDiedDiv.css("visibility","visible")
+    $youDiedDiv.on('click', '.startAgain' , playerOneStart)
+    $youDiedDiv.on('click', '.beginPLayer2' , playerTwoLoad)
+  
 }
 
+function playerTwoLoad(){
+    $readyPlayerTwoDiv.css("visibility","visible")
+    $readyPlayerTwoDiv.on('click', playerTwoStart)
+    currentPlayer = 'playerTwo'
+}
 
 function playerTwoStart(){
     
@@ -67,13 +78,20 @@ function playerTwoStart(){
     
     }
 
+    //=================================
+    //Initializes Points
+    function initializePoints(){
+        
 
-function displayPoints(){
+    } //END function -------
+    
     //displays points -- ALL PLAYERS
-    
-    
+    var $playerOneNum = $('#playerOneNum')
+    $playerOneNum.html('0')
 
-}
+
+    //=================================
+    
 
 function startMasterClock(){
     var duration = 30
@@ -95,8 +113,9 @@ function startMasterClock(){
             timer = duration;
         }
 
-        if (seconds === 0)
+        if (seconds === 15)
         {
+            console.log('TIMES UP   Health:' + masterHealth + 'Score P1  ' + $globalPlayerOnePoints )
             clearInterval() 
         }
     }, 1000);
@@ -147,6 +166,14 @@ function damageHuman(){
     $healthDisplay.text('Health:   ' + masterHealth)
     console.log('MASTER Health  ' + masterHealth)
 
+    if( (masterHealth === 0) && (currentPlayer === 'playerOne'))  {    //If die STOP Game
+        console.log('player 1 died')
+        playerOneDied()
+    }else if ((masterHealth === 0) && (currentPlayer === 'playerTwo')) {
+        console.log('player 2 died')
+        playerTwoDied()
+    }
+
 }
 
 
@@ -163,9 +190,11 @@ function Creature(){              // Main CREATURE SPAWN -----------------------
             console.log('confirmed kill')
             if(currentPlayer === 'playerOne'){     //ADD Points for Kill
                 $globalPlayerOnePoints = $globalPlayerOnePoints + 5
+                $playerOneNum.html($globalPlayerOnePoints)
                 console.log('points collected  ' + $globalPlayerOnePoints)
             } else if(currentPlayer === 'playerTwo'){
                 $globalPlayerTwoPoints = $globalPlayerTwoPoints + 5
+                $playerOneNum.html($globalPlayerOnePoints)
             }
             $(this.$domnode).remove()
         }
@@ -176,8 +205,16 @@ function Creature(){              // Main CREATURE SPAWN -----------------------
         console.log('Call Reduce Life -75%' + this.health)
         $(this.$domnode).text(this.health)
         if(this.health <= 0) {
+            if(currentPlayer === 'playerOne'){     //ADD Points for Kill
+                $globalPlayerOnePoints = $globalPlayerOnePoints + 5
+                $playerOneNum.html($globalPlayerOnePoints)
+                console.log('points collected  ' + $globalPlayerOnePoints)
+            } else if(currentPlayer === 'playerTwo'){
+                $globalPlayerTwoPoints = $globalPlayerTwoPoints + 5
+                $playerOneNum.html($globalPlayerOnePoints)
+            }
                 $(this.$domnode).remove()
-        }
+        } //END health
     } //END Nuke Life
     
 
