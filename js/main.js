@@ -28,23 +28,34 @@ setInterval(function(){     //nuke timer
 }, 15000);
 
 
+var $globalPlayerOnePoints = 0
+var $globalPlayerTwoPoints = 0
+var currentPlayer = ''
 var $readyPlayerOneDiv = $('#readyPlayerOne')
-$readyPlayerOneDiv.on('click', playerOneStart)
+
+
+
+
+function playerOneLoad(){
+    $readyPlayerOneDiv.css("visibility","visible")
+    $readyPlayerOneDiv.on('click', playerOneStart)
+    currentPlayer = 'playerOne'
+}
 
 function playerOneStart(){
+    $readyPlayerOneDiv.css("visibility","hidden")
+    displayPoints()
 
-    $readyPlayerOneDiv.css({
-                 
-    })
-
+    new Creature()
     
+    startMasterClock()
 
 }
 
 function playerOneStop(){
     
     
-
+    
     clearInterval() 
 }
 
@@ -56,6 +67,17 @@ function playerTwoStart(){
     
     }
 
+
+function displayPoints(){
+    //displays points -- ALL PLAYERS
+    var $playerOnePoints = $('<div>')
+    $playerOnePoints.addClass('playerOnePoints')
+    $('#player1Window').append($playerOnePoints)
+    
+    $playerOnePoints.text($globalPlayerOnePoints)
+    console.log('player 1 points:  ' + $globalPlayerOnePoints)
+
+}
 
 function startMasterClock(){
     var duration = 30
@@ -82,11 +104,7 @@ function startMasterClock(){
             clearInterval() 
         }
     }, 1000);
-
-
-    
-
-}
+} //END Master Clock -------------------
 
 
 function displayFirstAid(){
@@ -136,6 +154,8 @@ function damageHuman(){
 }
 
 
+//=========================================================
+//=========================================================
 function Creature(){              // Main CREATURE SPAWN -------------------------
     this.health = 100
     
@@ -144,6 +164,13 @@ function Creature(){              // Main CREATURE SPAWN -----------------------
         console.log('Call Reduce Life -25%' + this.health)
         $(this.$domnode).text(this.health)
         if(this.health <= 0) {
+            console.log('confirmed kill')
+            if(currentPlayer === 'playerOne'){     //ADD Points for Kill
+                $globalPlayerOnePoints = $globalPlayerOnePoints + 5
+                console.log('points collected  ' + $globalPlayerOnePoints)
+            } else if(currentPlayer === 'playerTwo'){
+                $globalPlayerTwoPoints = $globalPlayerTwoPoints + 5
+            }
             $(this.$domnode).remove()
         }
     } //END Reduce Life
@@ -153,7 +180,7 @@ function Creature(){              // Main CREATURE SPAWN -----------------------
         console.log('Call Reduce Life -75%' + this.health)
         $(this.$domnode).text(this.health)
         if(this.health <= 0) {
-            $(this.$domnode).remove()
+                $(this.$domnode).remove()
         }
     } //END Nuke Life
     
@@ -193,7 +220,8 @@ function Creature(){              // Main CREATURE SPAWN -----------------------
     -------------------- END GROW Feature -----------------*/
 
 }  //END createCreature ------------------
-
+//=========================================================
+//=========================================================
 
 
 
