@@ -70,12 +70,8 @@ function playerTwoStart(){
 
 function displayPoints(){
     //displays points -- ALL PLAYERS
-    var $playerOnePoints = $('<div>')
-    $playerOnePoints.addClass('playerOnePoints')
-    $('#player1Window').append($playerOnePoints)
     
-    $playerOnePoints.text($globalPlayerOnePoints)
-    console.log('player 1 points:  ' + $globalPlayerOnePoints)
+    
 
 }
 

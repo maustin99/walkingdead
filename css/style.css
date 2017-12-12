@@ -126,8 +126,22 @@ float: left;
 
     }
 
-.playerOnePoints{
+#playerOneBoxScore{
+    width: 350px;
+    height: 85px;
+    margin-left: 25px;
+    margin-top: 25px;
+    padding-top: 10px;
+    float: left;
+
     font-Size: 25pt;
-    color: blue;
+    color: white;
+    background-color: lightgray;
     text-align: center;
+    }
+
+    #playerOneBoxScore p {
+        margin: 0px;
+        padding: 0px;
+        color: white;
     }
