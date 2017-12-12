@@ -34,8 +34,7 @@ $readyPlayerOneDiv.on('click', playerOneStart)
 function playerOneStart(){
 
     $readyPlayerOneDiv.css({
-        top: 600,
-        left: num+25,         
+                 
     })
 
     
