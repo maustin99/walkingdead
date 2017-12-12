@@ -10,7 +10,8 @@ $mainGameConsole.append($healthDisplay)
 
 var $masterClockDisplay = $('<p>')
 $masterClockDisplay.addClass('masterClockDisplay')
-$mainGameConsole.append($masterClockDisplay) 
+$lowerConsoleWindow = $('#lowerConsoleWindow')
+$lowerConsoleWindow.append($masterClockDisplay) 
 
 
 var $firstAid = $('<div>')
@@ -26,6 +27,67 @@ setInterval(function(){     //nuke timer
     displayNuke() 
 }, 15000);
 
+
+var $readyPlayerOneDiv = $('#readyPlayerOne')
+$readyPlayerOneDiv.on('click', playerOneStart)
+
+function playerOneStart(){
+
+    $readyPlayerOneDiv.css({
+        top: 600,
+        left: num+25,         
+    })
+
+    
+
+}
+
+function playerOneStop(){
+    
+    
+
+    clearInterval() 
+}
+
+
+function playerTwoStart(){
+    
+    
+        
+    
+    }
+
+
+function startMasterClock(){
+    var duration = 30
+    var timer = duration, minutes, seconds;
+    var i=0
+    
+    setInterval(function () {
+        minutes = parseInt(timer / 60, 10);
+        seconds = parseInt(timer % 60, 10);
+        
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+        
+
+        console.log(minutes + ":" + seconds);
+        $masterClockDisplay.text('Clock  ::' + seconds )
+
+        if (--timer < 0) {
+            timer = duration;
+        }
+
+        if (seconds === 0)
+        {
+            clearInterval() 
+        }
+    }, 1000);
+
+
+    
+
+}
 
 
 function displayFirstAid(){
