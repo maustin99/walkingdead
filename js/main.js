@@ -38,34 +38,43 @@ var $youSurvivedDiv = $('#youSurvived')
 var $endOfGameDiv = $('#endOfGame')
 
 
+function resetGameBoard(){
+    $( ".badCreatures" ).remove()
+    //this.$domnode = ''
+}
 
 function playerOneLoad(){
+    resetGameBoard()
+    $globalPlayerOnePoints = 0
+    $endOfGameDiv.css("visibility","hidden")
+    $youDiedDiv.css("visibility","hidden")
     $readyPlayerOneDiv.css("visibility","visible")
     $readyPlayerOneDiv.on('click', playerOneStart)
     currentPlayer = 'playerOne'
+
 }
 
 function playerOneStart(){
+   
     $readyPlayerOneDiv.css("visibility","hidden")
     
-    new Creature()           // START GAME
+    
+    new Creature()           // START GAME  <<<<<<<<<<<<<<<<<<<<<<<<<<<
     
     //startMasterClock()     //START MASTER CLOCK
 }
 
-function playerOneStop(){
-    
-    
-  
-}
+
 function playerOneDied(){
     $youDiedDiv.css("visibility","visible")
-    $youDiedDiv.on('click', '.startAgain' , playerOneStart)
+    $youDiedDiv.on('click', '.startAgain' , playerOneLoad)
     $youDiedDiv.on('click', '.beginPLayer2' , playerTwoLoad)
   
 }
 
 function playerTwoLoad(){
+    resetGameBoard()
+    $youDiedDiv.css("visibility","hidden")
     $readyPlayerTwoDiv.css("visibility","visible")
     $readyPlayerTwoDiv.on('click', playerTwoStart)
     currentPlayer = 'playerTwo'
@@ -73,10 +82,18 @@ function playerTwoLoad(){
 
 function playerTwoStart(){
     
+    $readyPlayerTwoDiv.css("visibility","hidden")
+    new Creature()           // START GAME
     
-        
-    
+    //startMasterClock()     //START MASTER CLOCK
     }
+
+    function playerTwoDied(){
+        $endOfGameDiv.css("visibility","visible")
+        $endOfGameDiv.on('click', '.startAgain' , playerOneLoad)
+      
+    }
+
 
     //=================================
     //Initializes Points
@@ -160,21 +177,24 @@ function nukeEmAll(){
 
 }
 
-function damageHuman(){
+function damageHuman(){             // MASTER HEALTH =====================
     masterHealth -= 1.5
 
     $healthDisplay.text('Health:   ' + masterHealth)
-    console.log('MASTER Health  ' + masterHealth)
+    console.log('MASTER Health  ' + currentPlayer + '  ' + masterHealth)
 
-    if( (masterHealth === 0) && (currentPlayer === 'playerOne'))  {    //If die STOP Game
+    if( (masterHealth <= 0) && (currentPlayer === 'playerOne'))  {    //If die STOP Game
         console.log('player 1 died')
         playerOneDied()
-    }else if ((masterHealth === 0) && (currentPlayer === 'playerTwo')) {
+    }else if ((masterHealth <= 0) && (currentPlayer === 'playerTwo')) {
         console.log('player 2 died')
         playerTwoDied()
     }
 
-}
+}  //END MASTER Health
+
+
+
 
 
 //=========================================================
@@ -312,9 +332,11 @@ function calcSpeed(prev, next) {
 $('body').on('click', '.badCreatures', function() {
     // any time you click on a creature div, be able to refer to its associated JS obj with
     // $(this).data('jsobj')
+
     var creatureObj = $(this).data('jsobj')
-    console.log(creatureObj)
+    
     creatureObj.reduceLife()
+    console.log(creatureObj)
 })
 
 /*
