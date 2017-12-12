@@ -31,6 +31,7 @@ setInterval(function(){     //nuke timer
 var $globalPlayerOnePoints = 0
 var $globalPlayerTwoPoints = 0
 var currentPlayer = ''
+var currentPlayerStatus = ''
 var $readyPlayerOneDiv = $('#readyPlayerOne')
 var $readyPlayerTwoDiv = $('#readyPlayerTwo')
 var $youDiedDiv = $('#youDied')
@@ -39,8 +40,8 @@ var $endOfGameDiv = $('#endOfGame')
 
 
 function resetGameBoard(){
-    $( ".badCreatures" ).remove()
-    //this.$domnode = ''
+   
+
 }
 
 function playerOneLoad(){
@@ -51,6 +52,7 @@ function playerOneLoad(){
     $readyPlayerOneDiv.css("visibility","visible")
     $readyPlayerOneDiv.on('click', playerOneStart)
     currentPlayer = 'playerOne'
+    currentPlayerStatus = 'alive'
 
 }
 
@@ -59,13 +61,14 @@ function playerOneStart(){
     $readyPlayerOneDiv.css("visibility","hidden")
     
     
-    new Creature()           // START GAME  <<<<<<<<<<<<<<<<<<<<<<<<<<<
+    creatureCreate()     // START GAME  <<<<<<<<<<<<<<<<<<<<<<<<<<<
     
     //startMasterClock()     //START MASTER CLOCK
 }
 
 
 function playerOneDied(){
+    currentPlayerStatus = 'dead'
     $youDiedDiv.css("visibility","visible")
     $youDiedDiv.on('click', '.startAgain' , playerOneLoad)
     $youDiedDiv.on('click', '.beginPLayer2' , playerTwoLoad)
@@ -89,6 +92,7 @@ function playerTwoStart(){
     }
 
     function playerTwoDied(){
+        currentPlayerStatus = 'dead'
         $endOfGameDiv.css("visibility","visible")
         $endOfGameDiv.on('click', '.startAgain' , playerOneLoad)
       
@@ -115,7 +119,7 @@ function startMasterClock(){
     var timer = duration, minutes, seconds;
     var i=0
     
-    setInterval(function () {
+    var intervalID = setInterval(function () {
         minutes = parseInt(timer / 60, 10);
         seconds = parseInt(timer % 60, 10);
         
@@ -133,7 +137,7 @@ function startMasterClock(){
         if (seconds === 15)
         {
             console.log('TIMES UP   Health:' + masterHealth + 'Score P1  ' + $globalPlayerOnePoints )
-            clearInterval() 
+            clearInterval(intervalID) 
         }
     }, 1000);
 } //END Master Clock -------------------
@@ -183,17 +187,75 @@ function damageHuman(){             // MASTER HEALTH =====================
     $healthDisplay.text('Health:   ' + masterHealth)
     console.log('MASTER Health  ' + currentPlayer + '  ' + masterHealth)
 
+    console.log('health bar  ' + masterHealth)
+    $('.healthBarValue').css('width', masterHealth + '%' )
+
     if( (masterHealth <= 0) && (currentPlayer === 'playerOne'))  {    //If die STOP Game
         console.log('player 1 died')
         playerOneDied()
     }else if ((masterHealth <= 0) && (currentPlayer === 'playerTwo')) {
         console.log('player 2 died')
         playerTwoDied()
+    } else if(masterHealth <= 25){
+
+        $('healthBarValue').append('<p id="dangerSign">')
+        $('dangerSign').text('DANGER')
+        $('dangerSign').css({
+            padding: "0px",
+            margin: "0px",
+            fontSize:"20pt",
+            color: "yellow",
+            textDecoration: "blink"
+
+        })
+
+
     }
 
 }  //END MASTER Health
 
 
+function creatureCreate(){
+    var creatureArray = []
+    var i = 0
+
+
+    var createCreatureInterval = setInterval(function(){     //fisrt aid timer
+       
+        
+
+        creatureArray[i] = new Creature()
+        console.log(i + 'array length' + creatureArray.length)
+
+        if(i === 30){
+            clearInterval(createCreatureInterval)
+            console.log('***STOP*** createCreatureInterval HALTED at 30')
+        } else if(currentPlayerStatus === 'dead'){
+            clearInterval(createCreatureInterval)
+            console.log('***STOP*** createCreatureInterval HALTED - you died')
+            eraseCreatures()
+
+        }
+        i++
+
+    }, 3000);
+
+    function eraseCreatures(){
+        i = 0
+        while ( i <= creatureArray.length ){
+
+            creatureArray[i].$domnode.remove()
+            
+            console.log('***STOP*** creature ERASE')
+            i++
+        }// end while
+
+        creatureArray = null
+        console.log('***STOP*** creature NULLed')
+    } //end function
+
+
+}
 
 
 
