@@ -37,6 +37,8 @@ var $readyPlayerTwoDiv = $('#readyPlayerTwo')
 var $youDiedDiv = $('#youDied')
 var $youSurvivedDiv = $('#youSurvived')
 var $endOfGameDiv = $('#endOfGame')
+var creatureArray;
+var createCreatureInterval;
 
 
 function resetGameBoard(){
@@ -81,37 +83,38 @@ function playerTwoLoad(){
     $readyPlayerTwoDiv.css("visibility","visible")
     $readyPlayerTwoDiv.on('click', playerTwoStart)
     currentPlayer = 'playerTwo'
+    masterHealth = 100
 }
 
 function playerTwoStart(){
     
     $readyPlayerTwoDiv.css("visibility","hidden")
-    new Creature()           // START GAME
+    creatureCreate()           // START GAME
     
     //startMasterClock()     //START MASTER CLOCK
-    }
+}
 
-    function playerTwoDied(){
-        currentPlayerStatus = 'dead'
-        $endOfGameDiv.css("visibility","visible")
-        $endOfGameDiv.on('click', '.startAgain' , playerOneLoad)
-      
-    }
-
-
-    //=================================
-    //Initializes Points
-    function initializePoints(){
-        
-
-    } //END function -------
+function playerTwoDied(){
+    currentPlayerStatus = 'dead'
+    $endOfGameDiv.css("visibility","visible")
+    $endOfGameDiv.on('click', '.startAgain' , playerOneLoad)
     
-    //displays points -- ALL PLAYERS
-    var $playerOneNum = $('#playerOneNum')
-    $playerOneNum.html('0')
+}
 
 
-    //=================================
+//=================================
+//Initializes Points
+function initializePoints(){
+    
+
+} //END function -------
+
+//displays points -- ALL PLAYERS
+var $playerOneNum = $('#playerOneNum')
+$playerOneNum.html('0')
+
+
+//=================================
     
 
 function startMasterClock(){
@@ -196,31 +199,32 @@ function damageHuman(){             // MASTER HEALTH =====================
     }else if ((masterHealth <= 0) && (currentPlayer === 'playerTwo')) {
         console.log('player 2 died')
         playerTwoDied()
-    } else if(masterHealth <= 25){
-
+    } 
+    
+    
+    if(masterHealth <= 25){
+        console.log('DANGERDANGERDANGERDANGERDANGERDANGER')
         $('healthBarValue').append('<p id="dangerSign">')
         $('dangerSign').text('DANGER')
         $('dangerSign').css({
-            padding: "0px",
-            margin: "0px",
-            fontSize:"20pt",
-            color: "yellow",
-            textDecoration: "blink"
+            "padding": "0px",
+            "margin": "0px",
+            "font-size":"20pt",
+            "color": "yellow",
+            "text-decoration": "blink"
 
         })
-
-
     }
 
 }  //END MASTER Health
 
 
 function creatureCreate(){
-    var creatureArray = []
+    creatureArray = []
     var i = 0
 
 
-    var createCreatureInterval = setInterval(function(){     //fisrt aid timer
+    createCreatureInterval = setInterval(function(){     //fisrt aid timer
        
         
 
@@ -239,24 +243,22 @@ function creatureCreate(){
         i++
 
     }, 3000);
-
-    function eraseCreatures(){
-        i = 0
-        while ( i <= creatureArray.length ){
-
-            creatureArray[i].$domnode.remove()
-            
-            console.log('***STOP*** creature ERASE')
-            i++
-        }// end while
-
-        creatureArray = null
-        console.log('***STOP*** creature NULLed')
-    } //end function
-
-
 }
 
+function eraseCreatures(){
+    var i = 0
+    while ( i < creatureArray.length ){
+
+        creatureArray[i].$domnode.remove()
+        delete creatureArray[i].$domnode
+        
+        console.log('***STOP*** creature ERASE')
+        i++
+    }// end while
+
+    creatureArray = null
+    console.log('***STOP*** creature NULLed')
+} //end function
 
 
 //=========================================================
@@ -321,7 +323,7 @@ function Creature(){              // Main CREATURE SPAWN -----------------------
 
 
     $mainGameConsole.append(this.$domnode)      // >>>>>EXECUTE <<<<<<<< //     
-    animateDiv()                                // >>>>>EXECUTE <<<<<<<< //
+    // animateDiv()                                // >>>>>EXECUTE <<<<<<<< //
 
     /*---------------------- ADD GROW Feature --------------
     $('.badCreatures').animate({ 
