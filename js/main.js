@@ -44,14 +44,20 @@ var $endOfGameDiv = $('#endOfGame')
 
 var creatureArray;
 var createCreatureInterval;
+var gateKeeper = 'open'
 
 
 function resetGameBoard(){
    
+    
 
 }
 
 function playerOneLoad(){
+
+    if (gateKeeper === 'open' ){
+    
+    gateKeeper = 'closed'
     resetGameBoard()
     $globalPlayerOnePoints = 0
     $endOfGameDiv.css("visibility","hidden")
@@ -61,7 +67,9 @@ function playerOneLoad(){
     currentPlayer = 'playerOne'
     currentPlayerStatus = 'alive'
     masterHealth = 100
-
+    } else {
+        console.log('gate is CLOSED')
+    }//END IF   
 }
 
 function playerOneStart(){
@@ -70,7 +78,7 @@ function playerOneStart(){
     
     
     creatureCreate()     // START GAME  <<<<<<<<<<<<<<<<<<<<<<<<<<<
-    
+    gateKeeper === 'open'
     //startMasterClock()     //START MASTER CLOCK
 }
 
@@ -84,6 +92,9 @@ function playerOneDied(){
 }
 
 function playerTwoLoad(){
+    if (gateKeeper === 'open' ){
+
+    gateKeeper = 'closed'
     resetGameBoard()
     $youDiedDiv.css("visibility","hidden")
     $readyPlayerTwoDiv.css("visibility","visible")
@@ -91,13 +102,16 @@ function playerTwoLoad(){
     currentPlayer = 'playerTwo'
     currentPlayerStatus = 'alive'
     masterHealth = 100
+    } else{
+        console.log('gate is CLOSED')
+    }//END If
 }
 
 function playerTwoStart(){
     masterHealth = 100
     $readyPlayerTwoDiv.css("visibility","hidden")
     creatureCreate()           // START GAME
-    
+    gateKeeper === 'open'
     //startMasterClock()     //START MASTER CLOCK
 }
 
@@ -203,6 +217,7 @@ function damageHuman(){             // MASTER HEALTH =====================
     if(masterHealth <= 0) {
         $('.badCreatures').each(function(index, creature) {
             $(creature).data('jsobj').stopHurtingHuman()
+            //$(creature).data('jsobj').die
         })
     }
 
@@ -237,10 +252,11 @@ function damageHuman(){             // MASTER HEALTH =====================
 
 function creatureCreate(){
     creatureArray = []
-    createCreatureInterval = setInterval(function(){     //fisrt aid timer
+    createCreatureInterval = setInterval(function(){     //create creature timer
         creatureArray.push(new Creature())
         if(creatureArray.length >= 30){
             clearInterval(createCreatureInterval)
+            eraseCreatures()
         } else if(currentPlayerStatus === 'dead'){
             clearInterval(createCreatureInterval)
             eraseCreatures()
@@ -318,10 +334,10 @@ function Creature(){              // Main CREATURE SPAWN -----------------------
    
     this.internalDamageTheHuman = setInterval(function(){     //damage  timer
         damageHuman()
-    }, 2500);
+    }, 2200);
 
-
-
+    
+    
 
     // create a dom node (div) and be able to reference it from in here:
     this.$domnode = $('<div>').text(this.health)
@@ -331,7 +347,7 @@ function Creature(){              // Main CREATURE SPAWN -----------------------
 
 
     //ADD to board randomly
-    var num = (Math.random() * 800) \
+    var num = (Math.random() * 800) 
     this.$domnode.css({
         top: 300,
         left: num+25,
@@ -342,8 +358,14 @@ function Creature(){              // Main CREATURE SPAWN -----------------------
 
 
     $mainGameConsole.append(this.$domnode)      // >>>>>EXECUTE <<<<<<<< //     
-    //animateDiv()                        
-                                 // >>>>>EXECUTE <<<<<<<< //
+                          
+    animateDiv()                   // >>>>>EXECUTE <<<<<<<< //
+
+
+
+
+              
+
 
     /*---------------------- ADD GROW Feature --------------
     $('.badCreatures').animate({ 
@@ -362,13 +384,8 @@ function Creature(){              // Main CREATURE SPAWN -----------------------
 
 
 
-
-
-
-
-
-/*-----------------------RADOMIZER -------------------*/
-function makeNewPosition(){
+  /*-----------------------RADOMIZER -------------------*/
+  function makeNewPosition(){
     
     // Get viewport dimensions (remove the dimension of the div)
     
@@ -376,7 +393,7 @@ function makeNewPosition(){
     var nw = Math.floor(Math.random() * 800);
     
     return [nh,nw];    
-    
+     
 }
 function animateDiv(){
     var newq = makeNewPosition();
@@ -384,12 +401,18 @@ function animateDiv(){
     var speed = calcSpeed([oldq.top, oldq.left], newq);
     
     $('.badCreatures').animate({ top: 200, 
-                                 left: newq[1] ,
-                                 width: "350px",
-                                 height: "450px"
+                                left: newq[1] ,
+                                width: "350px",
+                                height: "450px"
                                 }, speed, function(){
-      animateDiv();  // call animate again
-         
+    
+    if( masterHealth > 0){
+        animateDiv()  // call animate again
+    } else{
+        console.log('creature animation has halted')
+    }
+        
+        
     });
     
 };
@@ -408,6 +431,11 @@ function calcSpeed(prev, next) {
 
 }
 /*-----------------------END  RADOMIZER -------------------*/
+
+
+
+
+
 
 
 
