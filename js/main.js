@@ -421,12 +421,20 @@ function animateDiv(){
         animateDiv()  // call animate again
     } else{
         console.log('creature animation has halted')
-    }
+        
+
+        var $allCreatures = $( ".badCreatures" )
+        
+            $allCreatures.each(function(index, creature) {
+                $(creature).data('jsobj').die()
+            })
+
+    } //END else
         
         
-    });
+    }); //END Animate CSS
     
-};
+};  //END Animate DIV
 function calcSpeed(prev, next) {
     
     var x = Math.abs(prev[1] - next[1]);
