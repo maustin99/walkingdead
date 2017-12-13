@@ -54,9 +54,17 @@ function resetGameBoard(){
 
 
 function splashBegin(){
-    //$splashPage.css("visibility","visible")
     $splashPage.on('click', playerOneLoad)
-
+    $('.startAgain').on('click', playerOneLoad)
+    $('.beginPLayer2').on('click', playerTwoLoad)
+    $readyPlayerOneDiv.on('click', playerOneStart)
+    $readyPlayerTwoDiv.on('click', playerTwoStart)
+    $endOfGameDiv.on('click', '.startAgain' , playerOneLoad)
+    
+    $nuke.on('click', function(){
+        nukeEmAll()
+        $nuke.fadeOut()
+    })
 }
 
 
@@ -64,11 +72,10 @@ function playerOneLoad(){
  
     resetGameBoard()
     $globalPlayerOnePoints = 0
-    $splashPage.css("visibility","hidden")
-    $endOfGameDiv.css("visibility","hidden")
-    $youDiedDiv.css("visibility","hidden")
-    $readyPlayerOneDiv.css("visibility","visible")
-    $readyPlayerOneDiv.on('click', playerOneStart)
+    $splashPage.fadeOut()
+    $endOfGameDiv.fadeOut()
+    $youDiedDiv.fadeOut()
+    $readyPlayerOneDiv.fadeIn()
     currentPlayer = 'playerOne'
     currentPlayerStatus = 'alive'
     masterHealth = 100
@@ -80,7 +87,7 @@ function playerOneLoad(){
 
 function playerOneStart(){
    
-    $readyPlayerOneDiv.css("visibility","hidden")
+    $readyPlayerOneDiv.fadeOut()
     
     
     creatureCreate()     // START GAME  <<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -90,21 +97,18 @@ function playerOneStart(){
 
 
 function playerOneDied(){
-
     currentPlayerStatus = 'dead'
-    $youDiedDiv.css("visibility","visible")
-    $youDiedDiv.on('click', '.startAgain' , playerOneLoad)
-    $youDiedDiv.on('click', '.beginPLayer2' , playerTwoLoad)
-   
-    
+    $youDiedDiv.fadeIn()
 }
+
+
 
 function playerTwoLoad(){
     
     resetGameBoard()
-    $youDiedDiv.css("visibility","hidden")
-    $readyPlayerTwoDiv.css("visibility","visible")
-    $readyPlayerTwoDiv.on('click', playerTwoStart)
+    $youDiedDiv.fadeOut()
+    $readyPlayerTwoDiv.fadeIn()
+    
     currentPlayer = 'playerTwo'
     currentPlayerStatus = 'alive'
     masterHealth = 100
@@ -113,7 +117,7 @@ function playerTwoLoad(){
 
 function playerTwoStart(){
     masterHealth = 100
-    $readyPlayerTwoDiv.css("visibility","hidden")
+    $readyPlayerTwoDiv.fadeOut()
     creatureCreate()           // START GAME
     gateKeeper = 'open'
     //startMasterClock()     //START MASTER CLOCK
@@ -121,8 +125,8 @@ function playerTwoStart(){
 
 function playerTwoDied(){
     currentPlayerStatus = 'dead'
-    $endOfGameDiv.css("visibility","visible")
-    $endOfGameDiv.on('click', '.startAgain' , playerOneLoad)
+    $endOfGameDiv.fadeIn()
+    
     
 }
 
@@ -189,14 +193,8 @@ function displayFirstAid(){
 
 
 function displayNuke(){
-    
-        $nuke.on('click', function(){
-            nukeEmAll()
-            $nuke.remove()
-        })
-        $mainGameConsole.append($nuke)
-
-    }
+    $nuke.fadeIn()
+}
 
     
 
@@ -213,7 +211,7 @@ function nukeEmAll(){
 function damageHuman(){             // MASTER HEALTH =====================
     masterHealth -= 1.5
 
-    $healthDisplay.text('Health:   ' + masterHealth)
+    //$healthDisplay.text('Health:   ' + masterHealth)
     console.log('MASTER Health  ' + currentPlayer + '  ' + masterHealth)
 
     console.log('health bar  ' + masterHealth)
@@ -430,11 +428,6 @@ function animateDiv(){
         console.log('creature animation has halted')
         
 
-        var $allCreatures = $( ".badCreatures" )
-        
-            $allCreatures.each(function(index, creature) {
-                $(creature).data('jsobj').die()
-            })
 
     } //END else
         
@@ -460,7 +453,13 @@ function calcSpeed(prev, next) {
 
 
 
+/*----------------------- MONSTER / PLAYER ARRAYS -------------------*/
 
+
+
+
+
+/*-----------------------END  MONSTER / PLAYER ARRAYS -------------------*/
 
 
 

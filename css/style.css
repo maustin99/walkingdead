@@ -183,7 +183,7 @@ float: left;
 
         #readyPlayerOne{
             
-            visibility: hidden;
+            display: none;
             width: 800px;
             height: 370px;
     
@@ -203,7 +203,7 @@ float: left;
     
         #readyPlayerTwo{
             
-            visibility: hidden;
+            display: none;
             width: 800px;
             height: 370px;
     
@@ -223,7 +223,7 @@ float: left;
 
         #youDied{
             
-            visibility: hidden;
+            display: none;
             width: 800px;
             height: 370px;
     
@@ -243,7 +243,7 @@ float: left;
 
         #youSurvived{
             
-            visibility: hidden;
+            display: none;
             width: 800px;
             height: 370px;
     
@@ -263,7 +263,7 @@ float: left;
 
         #endOfGame{
             
-            visibility: hidden;
+            display: none;
             width: 800px;
             height: 370px;
     
@@ -282,7 +282,7 @@ float: left;
         }
 
         #splashPage{
-            visibility: hidden;
+            display: none;
             width: 1025px;
             height: 570px;
             
@@ -337,7 +337,7 @@ float: left;
       }
       
       .dangerSign{
-        visibility: visible;
+        
 
         padding: 0px;
         margin: 0px;
