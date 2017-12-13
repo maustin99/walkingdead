@@ -71,9 +71,16 @@ float: left;
     height:300px;
 
     border: 1px solid red;
-    background-color: darkgrey;
+   /* background-color: darkgrey; */
     position: absolute;
 
+}
+
+.badCreatures img{
+        height:300px;
+        padding:0px;
+        margin: 0px;
+        z-index: 2;
 }
 
 .healthDisplay{
@@ -100,16 +107,16 @@ float: left;
     }
 
 .nukeDisplay{
-        
-            width:65px;
-            height: 40px;
-            background-color: darkolivegreen;
-            top: 600px;
-            right: 30px;
-            
-            z-index: 1;
-            position: absolute; 
-        }
+    display: none;
+    width:65px;
+    height: 40px;
+    background-color: darkolivegreen;
+    top: 600px;
+    right: 30px;
+    
+    z-index: 1;
+    position: absolute; 
+}
 
 
 .masterClockDisplay{

@@ -56,7 +56,7 @@ function resetGameBoard(){
 function splashBegin(){
     $splashPage.on('click', playerOneLoad)
     $('.startAgain').on('click', playerOneLoad)
-    $('.beginPLayer2').on('click', playerTwoLoad)
+    $('.beginPlayer2').on('click', playerTwoLoad)
     $readyPlayerOneDiv.on('click', playerOneStart)
     $readyPlayerTwoDiv.on('click', playerTwoStart)
     $endOfGameDiv.on('click', '.startAgain' , playerOneLoad)
@@ -72,6 +72,7 @@ function playerOneLoad(){
  
     resetGameBoard()
     $globalPlayerOnePoints = 0
+    $globalPlayerTwoPoints = 0
     $splashPage.fadeOut()
     $endOfGameDiv.fadeOut()
     $youDiedDiv.fadeOut()
@@ -246,7 +247,7 @@ function damageHuman(){             // MASTER HEALTH =====================
         //$dangersign = $('<div>').text(this.health)
         $('.dangerSign').text('DANGER')
         $('.dangerSign').animate({
-            color: 'red', right: '250px', opacity: '1'
+            color:'white' , right: '250px', opacity: '1'
 
         } , 2000 )
     
@@ -310,6 +311,12 @@ function Creature(){              // Main CREATURE SPAWN -----------------------
         clearInterval(this.internalDamageTheHuman)
     }
     
+    $monsterPic = $monsterArray[Math.floor(Math.random() * $monsterArray.length)];
+
+    $(this.$domnode).html( '<img src="'+$monsterPic.image+'">' )
+
+   
+
     this.reduceLife = function() {
         this.health -= 25
         console.log('Call Reduce Life -25%' + this.health)
@@ -322,7 +329,7 @@ function Creature(){              // Main CREATURE SPAWN -----------------------
                 console.log('points collected  ' + $globalPlayerOnePoints)
             } else if(currentPlayer === 'playerTwo'){
                 $globalPlayerTwoPoints = $globalPlayerTwoPoints + 5
-                $playerTwoNum.html($globalPlayerOnePoints)
+                $playerTwoNum.html($globalPlayerTwoPoints)
             }
             this.die()
         }
@@ -430,10 +437,16 @@ function animateDiv(){
 
 
     } //END else
-        
-        
     }); //END Animate CSS
-    
+
+    $('.badCreatures > img').animate({ top: 200, 
+        left: newq[1] ,
+        width: "350px",
+        height: "450px"
+        }, speed )    //animate image img
+
+
+
 };  //END Animate DIV
 function calcSpeed(prev, next) {
     
@@ -455,7 +468,14 @@ function calcSpeed(prev, next) {
 
 /*----------------------- MONSTER / PLAYER ARRAYS -------------------*/
 
-
+var $monsterPic;
+var $monsterArray = [
+    { name: 'Zombie1', image: './images/zombies/zombie_1.png' }, 
+    { name: 'Zombie2', image: './images/zombies/zombie_2.png' }
+  ];
+  
+  
+  
 
 
 
