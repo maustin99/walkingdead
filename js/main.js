@@ -331,7 +331,7 @@ function Creature(){              // Main CREATURE SPAWN -----------------------
 
 
     //ADD to board randomly
-    var num = (Math.random() * 800)
+    var num = (Math.random() * 800) \
     this.$domnode.css({
         top: 300,
         left: num+25,
