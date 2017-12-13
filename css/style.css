@@ -310,3 +310,20 @@ float: left;
         position: relative;
       }
       
+      .dangerSign{
+        visibility: visible;
+
+        padding: 0px;
+        margin: 0px;
+        top:6px;
+        right: 100px;
+        font-size:20pt;
+        
+        opacity: 0.0;
+        color: yellow;
+
+        z-index: 3;
+        position: absolute;
+      }
+
+    

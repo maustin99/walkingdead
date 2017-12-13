@@ -13,6 +13,10 @@ $masterClockDisplay.addClass('masterClockDisplay')
 $lowerConsoleWindow = $('#lowerConsoleWindow')
 $lowerConsoleWindow.append($masterClockDisplay) 
 
+var $dangerSign = $('<p>')
+$dangerSign.addClass('dangerSign')
+$healthBarShell = $('.healthBarShell')
+$healthBarShell.append($dangerSign) 
 
 var $firstAid = $('<div>')
 $firstAid.addClass('firstAid')
@@ -37,6 +41,7 @@ var $readyPlayerTwoDiv = $('#readyPlayerTwo')
 var $youDiedDiv = $('#youDied')
 var $youSurvivedDiv = $('#youSurvived')
 var $endOfGameDiv = $('#endOfGame')
+
 var creatureArray;
 var createCreatureInterval;
 
@@ -55,6 +60,7 @@ function playerOneLoad(){
     $readyPlayerOneDiv.on('click', playerOneStart)
     currentPlayer = 'playerOne'
     currentPlayerStatus = 'alive'
+    masterHealth = 100
 
 }
 
@@ -83,11 +89,12 @@ function playerTwoLoad(){
     $readyPlayerTwoDiv.css("visibility","visible")
     $readyPlayerTwoDiv.on('click', playerTwoStart)
     currentPlayer = 'playerTwo'
+    currentPlayerStatus = 'alive'
     masterHealth = 100
 }
 
 function playerTwoStart(){
-    
+    masterHealth = 100
     $readyPlayerTwoDiv.css("visibility","hidden")
     creatureCreate()           // START GAME
     
@@ -193,6 +200,12 @@ function damageHuman(){             // MASTER HEALTH =====================
     console.log('health bar  ' + masterHealth)
     $('.healthBarValue').css('width', masterHealth + '%' )
 
+    if(masterHealth <= 0) {
+        $('.badCreatures').each(function(index, creature) {
+            $(creature).data('jsobj').stopHurtingHuman()
+        })
+    }
+
     if( (masterHealth <= 0) && (currentPlayer === 'playerOne'))  {    //If die STOP Game
         console.log('player 1 died')
         playerOneDied()
@@ -204,16 +217,19 @@ function damageHuman(){             // MASTER HEALTH =====================
     
     if(masterHealth <= 25){
         console.log('DANGERDANGERDANGERDANGERDANGERDANGER')
-        $('healthBarValue').append('<p id="dangerSign">')
-        $('dangerSign').text('DANGER')
-        $('dangerSign').css({
-            "padding": "0px",
-            "margin": "0px",
-            "font-size":"20pt",
-            "color": "yellow",
-            "text-decoration": "blink"
+        //$dangersign = $('<div>').text(this.health)
+        $('.dangerSign').text('DANGER')
+        $('.dangerSign').animate({
+            color: 'red', right: '250px', opacity: '1'
 
-        })
+        } , 2000 )
+    
+    }else if(masterHealth > 25){
+        $('.dangerSign').text('DANGER')
+        $('.dangerSign').animate({
+            right: '150px', opacity: '0'
+
+        } , 2000 )
     }
 
 }  //END MASTER Health
@@ -221,42 +237,28 @@ function damageHuman(){             // MASTER HEALTH =====================
 
 function creatureCreate(){
     creatureArray = []
-    var i = 0
-
-
     createCreatureInterval = setInterval(function(){     //fisrt aid timer
-       
-        
-
-        creatureArray[i] = new Creature()
-        console.log(i + 'array length' + creatureArray.length)
-
-        if(i === 30){
+        creatureArray.push(new Creature())
+        if(creatureArray.length >= 30){
             clearInterval(createCreatureInterval)
-            console.log('***STOP*** createCreatureInterval HALTED at 30')
         } else if(currentPlayerStatus === 'dead'){
             clearInterval(createCreatureInterval)
-            console.log('***STOP*** createCreatureInterval HALTED - you died')
             eraseCreatures()
-
         }
-        i++
-
     }, 3000);
 }
 
 function eraseCreatures(){
+    $('.badCreatures').remove()
     var i = 0
     while ( i < creatureArray.length ){
-
-        creatureArray[i].$domnode.remove()
-        delete creatureArray[i].$domnode
-        
+        creatureArray[i].die()
+        creatureArray[i] = null
         console.log('***STOP*** creature ERASE')
         i++
     }// end while
 
-    creatureArray = null
+    creatureArray = []
     console.log('***STOP*** creature NULLed')
 } //end function
 
@@ -265,6 +267,16 @@ function eraseCreatures(){
 //=========================================================
 function Creature(){              // Main CREATURE SPAWN -------------------------
     this.health = 100
+
+    this.die = function() {
+        this.$domnode.remove()
+        this.stopHurtingHuman()
+        delete this.$domnode
+    }
+
+    this.stopHurtingHuman = function() {
+        clearInterval(this.internalDamageTheHuman)
+    }
     
     this.reduceLife = function() {
         this.health -= 25
@@ -280,7 +292,7 @@ function Creature(){              // Main CREATURE SPAWN -----------------------
                 $globalPlayerTwoPoints = $globalPlayerTwoPoints + 5
                 $playerOneNum.html($globalPlayerOnePoints)
             }
-            $(this.$domnode).remove()
+            this.die()
         }
     } //END Reduce Life
 
@@ -297,12 +309,19 @@ function Creature(){              // Main CREATURE SPAWN -----------------------
                 $globalPlayerTwoPoints = $globalPlayerTwoPoints + 5
                 $playerOneNum.html($globalPlayerOnePoints)
             }
-                $(this.$domnode).remove()
+            this.die()
         } //END health
     } //END Nuke Life
-    
 
     console.log('SPAWN CREATURE')
+
+   
+    this.internalDamageTheHuman = setInterval(function(){     //damage  timer
+        damageHuman()
+    }, 2500);
+
+
+
 
     // create a dom node (div) and be able to reference it from in here:
     this.$domnode = $('<div>').text(this.health)
@@ -323,7 +342,8 @@ function Creature(){              // Main CREATURE SPAWN -----------------------
 
 
     $mainGameConsole.append(this.$domnode)      // >>>>>EXECUTE <<<<<<<< //     
-    // animateDiv()                                // >>>>>EXECUTE <<<<<<<< //
+    //animateDiv()                        
+                                 // >>>>>EXECUTE <<<<<<<< //
 
     /*---------------------- ADD GROW Feature --------------
     $('.badCreatures').animate({ 
@@ -369,7 +389,7 @@ function animateDiv(){
                                  height: "450px"
                                 }, speed, function(){
       animateDiv();  // call animate again
-      damageHuman(); // damage human       
+         
     });
     
 };
