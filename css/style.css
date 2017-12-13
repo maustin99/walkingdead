@@ -1,31 +1,46 @@
 
 
-#body{
-
+body{
+    background-color: black;
 }
 
 #wrapper{
     margin-left: auto;
     margin-right: auto;
+    
 
     width:1400px;
     height:800px;
 
-    border: 1px solid grey;
+    border: 0px solid grey;
 }
+
+#mainGameWindow{
+    background-image: url("../images/WD_background_1400.jpg");
+    background-repeat: no-repeat;
+    background-position: center; 
+    background-size: cover;
+
+    width: 1396px; 
+    height: 700px;
+    background-color: grey;
+
+    /* border: 2px red solid; */
+}
+
 
 #player1Window{
  width:200px;
  height: 698px;
 float: left;
- border: 1px solid lightblue;
+ border: 1px solid darkgrey;
 }
 
 #mainGameConsole{
-    width:994px;
+    width:990px;
     height: 698px;
     float: left;
-     border: 1px solid grey;
+    border: 0px solid darkgrey;
 
      position: relative;
     
@@ -35,13 +50,18 @@ float: left;
     width:200px;
     height: 698px;
     float: left;
-     border: 1px solid pink;
+    border: 1px solid darkgrey;
 }
 
 #lowerConsoleWindow{
+    background-image: url("../images/console_bkgnd.jpg");
+    background-repeat: no-repeat;
+    background-position: center; 
+    background-size: cover;
+
     clear: both;
     height: 200px;
-    background-color: purple;
+    background-color: darkgrey;
     position: relative;
 }
 
@@ -117,31 +137,7 @@ float: left;
 
     font-Size: 25pt;
     color: white;
-    background-color: lightgray;
-    text-align: center;
-    }
-
-    #playerOneBoxScore p {
-        margin: 0px;
-        padding: 0px;
-        color: white;
-    }
-
-    #playerOneNum{
-        margin: 0px;
-        padding: 0px;
-
-    }#playerOneBoxScore{
-    width: 350px;
-    height: 95px;
-    margin-left: 25px;
-    margin-top: 25px;
-    padding-top: 10px;
-    float: left;
-
-    font-Size: 25pt;
-    color: white;
-    background-color: lightgray;
+    background-color: rgba(0, 0, 0,0.5);
     text-align: center;
     }
 
@@ -156,6 +152,8 @@ float: left;
         padding: 0px;
 
     }
+
+    
 
     #playerTwoBoxScore{
         width: 350px;
@@ -167,7 +165,7 @@ float: left;
     
         font-Size: 25pt;
         color: white;
-        background-color: lightgray;
+        background-color: rgba(0, 0, 0,0.5);
         text-align: center;
         }
     
@@ -283,8 +281,36 @@ float: left;
     
         }
 
+        #splashPage{
+            visibility: hidden;
+            width: 1025px;
+            height: 570px;
+            
+            background-image: url("../images/metal_bkgnd_900.jpg");
+            background-repeat: no-repeat;
+            background-position: center; 
+            background-size: cover;
+            opacity: 1;
 
+            padding-top: 130px;
+    
+            background-color: rgba(0, 0, 0,0.5);
+            color: white;
+            text-align: center;
+            font-size: 25pt;
+            top: 100px;
+            left: 300px;
+            
+            z-index: 2;
+            position: absolute; 
+        }
 
+        #splashPage h1{
+
+        }
+        #splashPage h2{
+            color: rgb(167, 0, 0);
+        }
 
 
 
@@ -326,4 +352,4 @@ float: left;
         position: absolute;
       }
 
-    
+   

@@ -4,9 +4,7 @@ console.log('Java is working!')
 var $mainGameConsole = $('#mainGameConsole')
 
 var masterHealth = 100;
-var $healthDisplay = $('<div>')
-$healthDisplay.addClass('healthDisplay')
-$mainGameConsole.append($healthDisplay) 
+
 
 var $masterClockDisplay = $('<p>')
 $masterClockDisplay.addClass('masterClockDisplay')
@@ -41,6 +39,7 @@ var $readyPlayerTwoDiv = $('#readyPlayerTwo')
 var $youDiedDiv = $('#youDied')
 var $youSurvivedDiv = $('#youSurvived')
 var $endOfGameDiv = $('#endOfGame')
+var $splashPage = $('#splashPage')
 
 var creatureArray;
 var createCreatureInterval;
@@ -54,11 +53,18 @@ function resetGameBoard(){
 }
 
 
+function splashBegin(){
+    //$splashPage.css("visibility","visible")
+    $splashPage.on('click', playerOneLoad)
+
+}
+
 
 function playerOneLoad(){
  
     resetGameBoard()
     $globalPlayerOnePoints = 0
+    $splashPage.css("visibility","hidden")
     $endOfGameDiv.css("visibility","hidden")
     $youDiedDiv.css("visibility","hidden")
     $readyPlayerOneDiv.css("visibility","visible")
@@ -132,7 +138,8 @@ function initializePoints(){
 var $playerOneNum = $('#playerOneNum')
 $playerOneNum.html('0')
 
-
+var $playerTwoNum = $('#playerTwoNum')
+$playerTwoNum.html('0')
 //=================================
     
 
@@ -210,7 +217,7 @@ function damageHuman(){             // MASTER HEALTH =====================
     console.log('MASTER Health  ' + currentPlayer + '  ' + masterHealth)
 
     console.log('health bar  ' + masterHealth)
-    $('.healthBarValue').css('width', masterHealth + '%' )
+    //$('.healthBarValue').css('width', masterHealth + '%' )
 
     if(masterHealth <= 0) {
         $('.badCreatures').each(function(index, creature) {
@@ -317,7 +324,7 @@ function Creature(){              // Main CREATURE SPAWN -----------------------
                 console.log('points collected  ' + $globalPlayerOnePoints)
             } else if(currentPlayer === 'playerTwo'){
                 $globalPlayerTwoPoints = $globalPlayerTwoPoints + 5
-                $playerOneNum.html($globalPlayerOnePoints)
+                $playerTwoNum.html($globalPlayerOnePoints)
             }
             this.die()
         }
