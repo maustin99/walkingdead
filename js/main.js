@@ -53,11 +53,10 @@ function resetGameBoard(){
 
 }
 
-function playerOneLoad(){
 
-    if (gateKeeper === 'open' ){
-    
-    gateKeeper = 'closed'
+
+function playerOneLoad(){
+ 
     resetGameBoard()
     $globalPlayerOnePoints = 0
     $endOfGameDiv.css("visibility","hidden")
@@ -67,10 +66,11 @@ function playerOneLoad(){
     currentPlayer = 'playerOne'
     currentPlayerStatus = 'alive'
     masterHealth = 100
-    } else {
-        console.log('gate is CLOSED')
-    }//END IF   
-}
+   
+    
+    }//end function
+  
+
 
 function playerOneStart(){
    
@@ -78,23 +78,23 @@ function playerOneStart(){
     
     
     creatureCreate()     // START GAME  <<<<<<<<<<<<<<<<<<<<<<<<<<<
-    gateKeeper === 'open'
+    gateKeeper = 'open'
     //startMasterClock()     //START MASTER CLOCK
 }
 
 
 function playerOneDied(){
+
     currentPlayerStatus = 'dead'
     $youDiedDiv.css("visibility","visible")
     $youDiedDiv.on('click', '.startAgain' , playerOneLoad)
     $youDiedDiv.on('click', '.beginPLayer2' , playerTwoLoad)
-  
+   
+    
 }
 
 function playerTwoLoad(){
-    if (gateKeeper === 'open' ){
-
-    gateKeeper = 'closed'
+    
     resetGameBoard()
     $youDiedDiv.css("visibility","hidden")
     $readyPlayerTwoDiv.css("visibility","visible")
@@ -102,16 +102,14 @@ function playerTwoLoad(){
     currentPlayer = 'playerTwo'
     currentPlayerStatus = 'alive'
     masterHealth = 100
-    } else{
-        console.log('gate is CLOSED')
-    }//END If
+    
 }
 
 function playerTwoStart(){
     masterHealth = 100
     $readyPlayerTwoDiv.css("visibility","hidden")
     creatureCreate()           // START GAME
-    gateKeeper === 'open'
+    gateKeeper = 'open'
     //startMasterClock()     //START MASTER CLOCK
 }
 
@@ -223,10 +221,18 @@ function damageHuman(){             // MASTER HEALTH =====================
 
     if( (masterHealth <= 0) && (currentPlayer === 'playerOne'))  {    //If die STOP Game
         console.log('player 1 died')
-        playerOneDied()
+        if (gateKeeper === 'open'){
+            playerOneDied()
+            console.log('PLAYER ONE CALL TRIGGERED *******')
+            gateKeeper = 'closed'
+        }else { console.log('gate is CLOSED') }
+        
     }else if ((masterHealth <= 0) && (currentPlayer === 'playerTwo')) {
-        console.log('player 2 died')
-        playerTwoDied()
+        if (gateKeeper === 'open'){
+              console.log('player 2 died')
+              playerTwoDied()
+              gateKeeper = 'closed'
+        }else { console.log('gate is CLOSED')  }
     } 
     
     
@@ -253,11 +259,16 @@ function damageHuman(){             // MASTER HEALTH =====================
 function creatureCreate(){
     creatureArray = []
     createCreatureInterval = setInterval(function(){     //create creature timer
-        creatureArray.push(new Creature())
+        
+        if( (currentPlayerStatus === 'alive') && (masterHealth >= 0)  ){
+            creatureArray.push(new Creature())
+        }
+        
+
         if(creatureArray.length >= 30){
             clearInterval(createCreatureInterval)
             eraseCreatures()
-        } else if(currentPlayerStatus === 'dead'){
+        } else if(currentPlayerStatus === 'dead' || masterHealth <= 0){
             clearInterval(createCreatureInterval)
             eraseCreatures()
         }
