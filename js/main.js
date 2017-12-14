@@ -72,7 +72,7 @@ function splashBegin(){
     $endOfGameDiv.on('click', '.startAgain' , playerOneLoad)
     $outOfTimeP1Div.on('click', '.startAgain' , playerOneLoad)
     $outOfTimeP1Div.on('click', '.beginAgainP2' , playerTwoLoad)
-    $outOfTimeP2Div.on('click', '.continue' , playerTwoDied)
+    $outOfTimeP2Div.on('click', '.continueBtn' , playerTwoDied)
     
     
     $nuke.on('click', function(){
@@ -86,8 +86,8 @@ function splashBegin(){
     })
     
 
-
-}
+    $splashPage.fadeIn()
+}  //END SPLASH --------
 
 
 function playerOneLoad(){
@@ -117,7 +117,8 @@ function playerOneLoad(){
 function playerOneStart(){
    
     $readyPlayerOneDiv.fadeOut()
-    
+
+    currentPlayerHighlight()
     
     creatureCreate()     // START GAME  <<<<<<<<<<<<<<<<<<<<<<<<<<<
     gateKeeper = 'open'
@@ -138,13 +139,13 @@ function playerTwoLoad(){
     masterHealth = 100
     dangerHealthDisplay()
     $youDiedDiv.fadeOut()
-    $outOfTimeP2Div.fadeOut()
+    $outOfTimeP1Div.fadeOut()
     $readyPlayerTwoDiv.fadeIn()
     globalPlayerTwoPoints = 0
     currentPlayer = 'playerTwo'
     currentPlayerStatus = 'alive'
     
-    
+     currentPlayerHighlight()
 }
 
 function playerTwoStart(){
@@ -157,6 +158,7 @@ function playerTwoStart(){
 
 function playerTwoDied(){
     currentPlayerStatus = 'dead'
+    $outOfTimeP2Div.fadeOut()
     $endOfGameDiv.fadeIn()
     
     
@@ -208,7 +210,7 @@ function startMasterClock(){
             timer = duration;
         }
 
-        if (seconds <= 15)
+        if (seconds <= 0)
         {
             stopTheClock() //stop the clock
             currentPlayerStatus = 'dead'
@@ -216,7 +218,7 @@ function startMasterClock(){
             console.log('TIMES UP   Health:' + masterHealth + 'Score P1  ' + $globalPlayerOnePoints )
             $('.badCreatures').each(function(index, creature) {
                 $(creature).data('jsobj').stopHurtingHuman()
-                //$(creature).data('jsobj').die
+                $(creature).data('jsobj').die()
             }) 
 
             //eraseCreatures()
@@ -242,6 +244,28 @@ function stopTheClock(){
     clearInterval(clockIntervalID)
     //stops master clock
 }
+
+
+function currentPlayerHighlight(){
+    if(currentPlayer === 'playerOne'){
+        $('#playerOneBoxScore').css({
+            backgroundColor: 'rgba(14,25,159,0.5)'
+        })
+        $('#playerTwoBoxScore').css({
+            backgroundColor: 'rgba(0,0,0,0.5)'
+        })
+    }else if (currentPlayer === 'playerTwo'){
+        $('#playerOneBoxScore').css({
+            backgroundColor: 'rgba(0,0,0,0.5)'
+        })
+        $('#playerTwoBoxScore').css({
+            backgroundColor: 'rgba(117,12,12,0.5)'
+        })
+        
+    }
+} //END ------
+
+
 
 var b = 0;
 function displayFirstAid(){
@@ -318,6 +342,7 @@ function damageHuman(){             // MASTER HEALTH =====================
     if( (masterHealth <= 0) && (currentPlayer === 'playerOne'))  {    //If die STOP Game
         console.log('player 1 died')
         if (gateKeeper === 'open'){
+            stopTheClock()
             playerOneDied()
             console.log('PLAYER ONE CALL TRIGGERED *******')
             gateKeeper = 'closed'
@@ -326,6 +351,7 @@ function damageHuman(){             // MASTER HEALTH =====================
     }else if ((masterHealth <= 0) && (currentPlayer === 'playerTwo')) {
         if (gateKeeper === 'open'){
               console.log('player 2 died')
+              stopTheClock()
               playerTwoDied()
               gateKeeper = 'closed'
         }else { console.log('gate is CLOSED')  }
@@ -458,7 +484,7 @@ function Creature(){              // Main CREATURE SPAWN -----------------------
    
     this.internalDamageTheHuman = setInterval(function(){     //damage  timer
         damageHuman()
-    }, 1300);
+    }, 1050);
 
     
     
