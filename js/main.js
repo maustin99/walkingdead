@@ -18,6 +18,7 @@ $healthBarShell.append($dangerSign)
 
 var $firstAid = $('<div>')
 $firstAid.addClass('firstAid')
+$mainGameConsole.append($firstAid)
 setInterval(function(){     //fisrt aid timer
     displayFirstAid() 
 }, 10000);
@@ -25,9 +26,15 @@ setInterval(function(){     //fisrt aid timer
 
 var $nuke = $('<div>')
 $nuke.addClass('nukeDisplay')
+$mainGameConsole.append($nuke)
 setInterval(function(){     //nuke timer
     displayNuke() 
 }, 15000);
+
+
+
+
+
 
 
 var $globalPlayerOnePoints = 0
@@ -65,6 +72,14 @@ function splashBegin(){
         nukeEmAll()
         $nuke.fadeOut()
     })
+
+    $firstAid.on('click', function(){
+        masterHealth += 10
+        displayFirstAid()
+    })
+    
+
+
 }
 
 
@@ -80,6 +95,7 @@ function playerOneLoad(){
     currentPlayer = 'playerOne'
     currentPlayerStatus = 'alive'
     masterHealth = 100
+    dangerHealthDisplay()
    
     
     }//end function
@@ -107,12 +123,14 @@ function playerOneDied(){
 function playerTwoLoad(){
     
     resetGameBoard()
+    masterHealth = 100
+    dangerHealthDisplay()
     $youDiedDiv.fadeOut()
     $readyPlayerTwoDiv.fadeIn()
     
     currentPlayer = 'playerTwo'
     currentPlayerStatus = 'alive'
-    masterHealth = 100
+    
     
 }
 
@@ -176,25 +194,48 @@ function startMasterClock(){
     }, 1000);
 } //END Master Clock -------------------
 
-
+var b = 0;
 function displayFirstAid(){
 
-    $firstAid.on('click', function(){
-        masterHealth += 10
-        $firstAid.remove()
-    })
-    $mainGameConsole.append($firstAid)
-    //ADD to board randomly
     var num = (Math.random() * 800)
-    $firstAid.css({
-        top: 600,
-        left: num+25,         
-    })
+
+    if (b === 0){
+        $firstAid.fadeIn( function() {
+            b=1
+                })
+    } else if(b === 1){
+        $firstAid.fadeOut( function() {
+                b = 0
+                
+                $firstAid.css({
+                    top: 600,
+                    left: num+25,         
+                })
+            
+            })
+    }
+
+    //ADD to board randomly
+   
+    
 }
 
-
+var a = 0;
 function displayNuke(){
-    $nuke.fadeIn()
+   
+    if (a === 0){
+        $nuke.fadeIn( function() {
+            a=1
+                })
+    } else if(a === 1){
+        $nuke.fadeOut( function() {
+                a = 0
+                })
+    }
+
+   
+
+
 }
 
     
@@ -212,11 +253,11 @@ function nukeEmAll(){
 function damageHuman(){             // MASTER HEALTH =====================
     masterHealth -= 1.5
 
+    dangerHealthDisplay()
+
     //$healthDisplay.text('Health:   ' + masterHealth)
     console.log('MASTER Health  ' + currentPlayer + '  ' + masterHealth)
 
-    console.log('health bar  ' + masterHealth)
-    //$('.healthBarValue').css('width', masterHealth + '%' )
 
     if(masterHealth <= 0) {
         $('.badCreatures').each(function(index, creature) {
@@ -242,24 +283,35 @@ function damageHuman(){             // MASTER HEALTH =====================
     } 
     
     
+   
+}  //END MASTER Health
+
+
+function dangerHealthDisplay(){
+
+    console.log('health bar display ' + masterHealth)
+    $('.healthBarValue').css('width', masterHealth + '%' )  //ANIMATE health bar
+    
     if(masterHealth <= 25){
         console.log('DANGERDANGERDANGERDANGERDANGERDANGER')
         //$dangersign = $('<div>').text(this.health)
-        $('.dangerSign').text('DANGER')
+        $('.dangerSign').html('DANGER')
         $('.dangerSign').animate({
-            color:'white' , right: '250px', opacity: '1'
+              right: '250px', opacity: '1'
 
         } , 2000 )
     
-    }else if(masterHealth > 25){
-        $('.dangerSign').text('DANGER')
+    }else if(masterHealth >= 90){
+        $('.dangerSign').html('DANGER')
         $('.dangerSign').animate({
             right: '150px', opacity: '0'
 
-        } , 2000 )
+        } , 1000 )
     }
 
-}  //END MASTER Health
+
+} //END danger Health Display -----------------
+
 
 
 function creatureCreate(){
@@ -351,6 +403,8 @@ function Creature(){              // Main CREATURE SPAWN -----------------------
             this.die()
         } //END health
     } //END Nuke Life
+
+
 
     console.log('SPAWN CREATURE')
 

@@ -96,28 +96,41 @@ float: left;
 }
 
 .firstAid{
-    
-        width:75px;
-        height: 50px;
-        background-color: lightcoral;
-        
-        
+        display: none;
+        width:85px;
+        height: 65px;
+
+        background-image: url("../images/first_aid_kit_400.png");
+        background-repeat: no-repeat;
+        background-position: center; 
+        background-size: cover;
+        /* background-color: lightcoral; */
+        top: 600px;
+        left: 100px;
+
         z-index: 1;
         position: absolute; 
     }
+.firstAid:hover{ filter: brightness(2);  }
 
 .nukeDisplay{
     display: none;
-    width:65px;
-    height: 40px;
-    background-color: darkolivegreen;
-    top: 600px;
-    right: 30px;
+
+    background-image: url("../images/grenade.png");
+    background-repeat: no-repeat;
+    background-position: center; 
+    background-size: cover;
+
+    width:75px;
+    height: 100px;
+    /*background-color: darkolivegreen; */
+    top: 590px;
+    right: 40px;
     
     z-index: 1;
     position: absolute; 
 }
-
+.nukeDisplay:hover{ filter: brightness(2);  }
 
 .masterClockDisplay{
     
@@ -348,7 +361,7 @@ float: left;
 
         padding: 0px;
         margin: 0px;
-        top:6px;
+        top:10px;
         right: 100px;
         font-size:20pt;
         
