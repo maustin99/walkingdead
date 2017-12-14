@@ -2,6 +2,8 @@
 
 body{
     background-color: black;
+    /* cursor: url(../images/cursor_3_lg.png) 7 10, auto; */
+    
 }
 
 #wrapper{
@@ -25,6 +27,8 @@ body{
     height: 700px;
     background-color: grey;
 
+    
+   
     /* border: 2px red solid; */
 }
 
@@ -35,6 +39,8 @@ body{
 float: left;
  border: 0px solid darkgrey;
  position: relative;
+ 
+ 
 }
 
 #player1Window img{
@@ -51,7 +57,6 @@ float: left;
     border: 0px solid darkgrey;
 
      position: relative;
-    
 }
 
 #player2Window{
@@ -90,6 +95,8 @@ float: left;
    /* background-color: darkgrey; */
     position: absolute;
     z-index: 1;
+
+    
 }
 
 .badCreatures img{

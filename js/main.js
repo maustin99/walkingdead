@@ -64,6 +64,7 @@ function resetGameBoard(){
 
 
 function splashBegin(){
+    randomBackgroundPic()
     $splashPage.on('click', playerOneLoad)
     $('.startAgain').on('click', playerOneLoad)
     $('.beginPlayer2').on('click', playerTwoLoad)
@@ -92,6 +93,7 @@ function splashBegin(){
 
 function playerOneLoad(){
 
+    randomBackgroundPic()
     randomPlayerPic()
     resetGameBoard()
     masterHealth = 100
@@ -135,6 +137,7 @@ function playerOneDied(){
 
 
 function playerTwoLoad(){
+
     
     resetGameBoard()
     masterHealth = 100
@@ -644,9 +647,10 @@ var $backgroundArray = [
     
         $backgroundPic = $backgroundArray[Math.floor(Math.random() * $backgroundArray.length)];
        
-        $('#mainGameWindow').css({'background-image': 'url(./images/' + $backgroundPic + ')'});
+        console.log( 'background  '  + $backgroundPic.image)
         
-        
+        $("#mainGameWindow").css("backgroundImage", "url(" + $backgroundPic.image + ")");
+        return $backgroundPic
     
     }
 
@@ -654,7 +658,7 @@ var $backgroundArray = [
 /*-----------------------END  MONSTER / PLAYER ARRAYS -------------------*/
 
 
-
+//document.getElementById("mainGameWindow").style.cursor = './images/cursor_3_sm.png';
 
 // test listeners:
 
