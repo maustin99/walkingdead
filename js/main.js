@@ -251,7 +251,7 @@ function nukeEmAll(){
 }
 
 function damageHuman(){             // MASTER HEALTH =====================
-    masterHealth -= 1.5
+    masterHealth -= 5
 
     dangerHealthDisplay()
 
@@ -330,7 +330,7 @@ function creatureCreate(){
             clearInterval(createCreatureInterval)
             eraseCreatures()
         }
-    }, 3000);
+    }, 2200);
 }
 
 function eraseCreatures(){
@@ -363,16 +363,14 @@ function Creature(){              // Main CREATURE SPAWN -----------------------
         clearInterval(this.internalDamageTheHuman)
     }
     
-    $monsterPic = $monsterArray[Math.floor(Math.random() * $monsterArray.length)];
-
-    $(this.$domnode).html( '<img src="'+$monsterPic.image+'">' )
+    
 
    
 
     this.reduceLife = function() {
         this.health -= 25
         console.log('Call Reduce Life -25%' + this.health)
-        $(this.$domnode).text(this.health)
+        //$(this.$domnode).text(this.health)
         if(this.health <= 0) {
             console.log('confirmed kill')
             if(currentPlayer === 'playerOne'){     //ADD Points for Kill
@@ -390,7 +388,7 @@ function Creature(){              // Main CREATURE SPAWN -----------------------
     this.nukeLife = function() {
         this.health -= 75
         console.log('Call Reduce Life -75%' + this.health)
-        $(this.$domnode).text(this.health)
+        //$(this.$domnode).text(this.health)
         if(this.health <= 0) {
             if(currentPlayer === 'playerOne'){     //ADD Points for Kill
                 $globalPlayerOnePoints = $globalPlayerOnePoints + 5
@@ -411,7 +409,7 @@ function Creature(){              // Main CREATURE SPAWN -----------------------
    
     this.internalDamageTheHuman = setInterval(function(){     //damage  timer
         damageHuman()
-    }, 2200);
+    }, 1600);
 
     
     
@@ -419,8 +417,15 @@ function Creature(){              // Main CREATURE SPAWN -----------------------
     // create a dom node (div) and be able to reference it from in here:
     this.$domnode = $('<div>').text(this.health)
 
+    $monsterPic = $monsterArray[Math.floor(Math.random() * $monsterArray.length)];
+    //console.log('domnode***************', this.$domnode)
+    $(this.$domnode).html( '<img src="'+$monsterPic.image+'">' )
+    
     this.$domnode.data('jsobj', this)   //takes THIS (creature) calls is jsobj and saves it as DOMNODE
     this.$domnode.addClass('badCreatures')
+
+
+    
 
 
     //ADD to board randomly
@@ -477,10 +482,10 @@ function animateDiv(){
     var oldq = $('.badCreatures').offset();
     var speed = calcSpeed([oldq.top, oldq.left], newq);
     
-    $('.badCreatures').animate({ top: 200, 
+    $('.badCreatures').animate({ top: 247, 
                                 left: newq[1] ,
                                 width: "350px",
-                                height: "450px"
+                                height: "500px"
                                 }, speed, function(){
     
     if( masterHealth > 0){
