@@ -47,11 +47,14 @@ var $youDiedDiv = $('#youDied')
 var $youSurvivedDiv = $('#youSurvived')
 var $endOfGameDiv = $('#endOfGame')
 var $splashPage = $('#splashPage')
+var $outOfTimeP1Div = $('#outOfTimeP1')
+var $outOfTimeP2Div = $('#outOfTimeP2')
 
 var creatureArray;
 var createCreatureInterval;
 var gateKeeper = 'open'
 
+var clockIntervalID;
 
 function resetGameBoard(){
    
@@ -67,6 +70,10 @@ function splashBegin(){
     $readyPlayerOneDiv.on('click', playerOneStart)
     $readyPlayerTwoDiv.on('click', playerTwoStart)
     $endOfGameDiv.on('click', '.startAgain' , playerOneLoad)
+    $outOfTimeP1Div.on('click', '.startAgain' , playerOneLoad)
+    $outOfTimeP1Div.on('click', '.beginAgainP2' , playerTwoLoad)
+    $outOfTimeP2Div.on('click', '.continue' , playerTwoDied)
+    
     
     $nuke.on('click', function(){
         nukeEmAll()
@@ -84,18 +91,23 @@ function splashBegin(){
 
 
 function playerOneLoad(){
- 
+
     resetGameBoard()
+    masterHealth = 100
+    dangerHealthDisplay()
     $globalPlayerOnePoints = 0
+    $playerOneNum.html($globalPlayerOnePoints)
     $globalPlayerTwoPoints = 0
+    $playerTwoNum.html($globalPlayerTwoPoints)
     $splashPage.fadeOut()
     $endOfGameDiv.fadeOut()
     $youDiedDiv.fadeOut()
+    $outOfTimeP1Div.fadeOut()
     $readyPlayerOneDiv.fadeIn()
     currentPlayer = 'playerOne'
     currentPlayerStatus = 'alive'
-    masterHealth = 100
-    dangerHealthDisplay()
+    
+    
    
     
     }//end function
@@ -109,7 +121,7 @@ function playerOneStart(){
     
     creatureCreate()     // START GAME  <<<<<<<<<<<<<<<<<<<<<<<<<<<
     gateKeeper = 'open'
-    //startMasterClock()     //START MASTER CLOCK
+    startMasterClock()     //START MASTER CLOCK
 }
 
 
@@ -126,8 +138,9 @@ function playerTwoLoad(){
     masterHealth = 100
     dangerHealthDisplay()
     $youDiedDiv.fadeOut()
+    $outOfTimeP2Div.fadeOut()
     $readyPlayerTwoDiv.fadeIn()
-    
+    globalPlayerTwoPoints = 0
     currentPlayer = 'playerTwo'
     currentPlayerStatus = 'alive'
     
@@ -139,7 +152,7 @@ function playerTwoStart(){
     $readyPlayerTwoDiv.fadeOut()
     creatureCreate()           // START GAME
     gateKeeper = 'open'
-    //startMasterClock()     //START MASTER CLOCK
+    startMasterClock()     //START MASTER CLOCK
 }
 
 function playerTwoDied(){
@@ -149,6 +162,15 @@ function playerTwoDied(){
     
 }
 
+function outOfTimeP1(){
+    currentPlayerStatus = 'dead'
+    $outOfTimeP1Div.fadeIn()
+}
+
+function outOfTimeP2(){
+    currentPlayerStatus = 'dead'
+    $outOfTimeP2Div.fadeIn()
+}
 
 //=================================
 //Initializes Points
@@ -171,7 +193,7 @@ function startMasterClock(){
     var timer = duration, minutes, seconds;
     var i=0
     
-    var intervalID = setInterval(function () {
+    clockIntervalID = setInterval(function () {
         minutes = parseInt(timer / 60, 10);
         seconds = parseInt(timer % 60, 10);
         
@@ -186,13 +208,40 @@ function startMasterClock(){
             timer = duration;
         }
 
-        if (seconds === 15)
+        if (seconds <= 15)
         {
+            stopTheClock() //stop the clock
+            currentPlayerStatus = 'dead'
+
             console.log('TIMES UP   Health:' + masterHealth + 'Score P1  ' + $globalPlayerOnePoints )
-            clearInterval(intervalID) 
-        }
+            $('.badCreatures').each(function(index, creature) {
+                $(creature).data('jsobj').stopHurtingHuman()
+                //$(creature).data('jsobj').die
+            }) 
+
+            //eraseCreatures()
+
+            console.log('outside of if, after erase')
+            if( currentPlayer === 'playerOne' ){
+                console.log('inside of if -- stop clock')
+                outOfTimeP1()
+            } else if(currentPlayer === 'playerTwo'){
+                console.log('inside of if -- stop clock')
+                outOfTimeP2()
+            } else {
+                console.log('stop clock fail to advance')
+            }
+
+
+        }  // END if at 15 sec
     }, 1000);
 } //END Master Clock -------------------
+
+function stopTheClock(){
+
+    clearInterval(clockIntervalID)
+    //stops master clock
+}
 
 var b = 0;
 function displayFirstAid(){
@@ -409,7 +458,7 @@ function Creature(){              // Main CREATURE SPAWN -----------------------
    
     this.internalDamageTheHuman = setInterval(function(){     //damage  timer
         damageHuman()
-    }, 1600);
+    }, 1300);
 
     
     
@@ -488,7 +537,7 @@ function animateDiv(){
                                 height: "500px"
                                 }, speed, function(){
     
-    if( masterHealth > 0){
+    if( masterHealth > 0 || currentPlayerStatus != 'dead'){
         animateDiv()  // call animate again
     } else{
         console.log('creature animation has halted')
