@@ -606,6 +606,7 @@ function calcSpeed(prev, next) {
 var $monsterPic;
 var $castPic;
 var $castPic2;
+var $backgroundPic;
 
 var $monsterArray = [
     { name: 'Zombie1', image: './images/zombies/zombie_1.png' }, 
@@ -618,6 +619,7 @@ var $monsterArray = [
     { name: 'Cast1', image: './images/cast/daryl.png' }, 
     { name: 'Cast1', image: './images/cast/Carol.png' }, 
     { name: 'Cast1', image: './images/cast/carl.png' }, 
+    { name: 'Cast1', image: './images/cast/maggie.png' }
   ];
   
 function randomPlayerPic(){
@@ -629,6 +631,24 @@ function randomPlayerPic(){
     
 
 }
+
+var $backgroundArray = [
+    { name: 'Background', image: './images/WD_background_1400.jpg' }, 
+    { name: 'Background', image: './images/WD_background_2_1400.jpg' }, 
+    { name: 'Background', image: './images/WD_background_3_1400.jpg' }, 
+    { name: 'Background', image: './images/WD_background_4_1400.jpg' }, 
+
+  ];
+
+  function randomBackgroundPic(){
+    
+        $backgroundPic = $backgroundArray[Math.floor(Math.random() * $backgroundArray.length)];
+       
+        $('#mainGameWindow').css({'background-image': 'url(./images/' + $backgroundPic + ')'});
+        
+        
+    
+    }
 
 
 /*-----------------------END  MONSTER / PLAYER ARRAYS -------------------*/

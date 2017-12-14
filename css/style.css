@@ -16,7 +16,7 @@ body{
 }
 
 #mainGameWindow{
-    background-image: url("../images/WD_background_1400.jpg");
+    /* background-image: url("../images/WD_background_1400.jpg"); */
     background-repeat: no-repeat;
     background-position: center; 
     background-size: cover;
