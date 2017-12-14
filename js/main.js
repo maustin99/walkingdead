@@ -621,7 +621,9 @@ var $backgroundPic;
 
 var $monsterArray = [
     { name: 'Zombie1', image: './images/zombies/zombie_1.png' }, 
-    { name: 'Zombie2', image: './images/zombies/zombie_2.png' }
+    { name: 'Zombie2', image: './images/zombies/zombie_2.png' },
+    { name: 'Zombie3', image: './images/zombies/zombie_3.png' }, 
+    { name: 'Zombie4', image: './images/zombies/zombie_4.png' }
   ];
   
   var $castArray = [
