@@ -165,8 +165,16 @@ function playerTwoDied(){
     $outOfTimeP2Div.fadeOut()
     $endOfGameDiv.fadeIn()
     
+    if ($globalPlayerOnePoints > $globalPlayerTwoPoints){
+        $('#winnerDeclare').html('Player One Wins!')
+    }else if($globalPlayerOnePoints < $globalPlayerTwoPoints){
+        $('#winnerDeclare').html('Player Two Wins!')
+    }else if ($globalPlayerOnePoints === $globalPlayerTwoPoints){
+        $('#winnerDeclare').html('You Both Survive!')
+    }
+
     
-}
+} //END playerTwoDied
 
 function outOfTimeP1(){
     currentPlayerStatus = 'dead'
@@ -208,7 +216,7 @@ function startMasterClock(){
         
 
         console.log(minutes + ":" + seconds);
-        $masterClockDisplay.text('Clock  ::' + seconds )
+        $masterClockDisplay.text(seconds)
 
         if (--timer < 0) {
             timer = duration;
