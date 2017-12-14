@@ -33,7 +33,15 @@ body{
  width:200px;
  height: 698px;
 float: left;
- border: 1px solid darkgrey;
+ border: 0px solid darkgrey;
+ position: relative;
+}
+
+#player1Window img{
+    top:100px;
+    left:-10px;
+
+    position: absolute;
 }
 
 #mainGameConsole{
@@ -50,7 +58,15 @@ float: left;
     width:200px;
     height: 698px;
     float: left;
-    border: 1px solid darkgrey;
+    border: 0px solid darkgrey;
+    position: relative;
+}
+
+#player2Window img{
+    top:100px;
+    right:-20px;
+
+    position: absolute;
 }
 
 #lowerConsoleWindow{

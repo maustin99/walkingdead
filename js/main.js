@@ -92,6 +92,7 @@ function splashBegin(){
 
 function playerOneLoad(){
 
+    randomPlayerPic()
     resetGameBoard()
     masterHealth = 100
     dangerHealthDisplay()
@@ -603,14 +604,31 @@ function calcSpeed(prev, next) {
 /*----------------------- MONSTER / PLAYER ARRAYS -------------------*/
 
 var $monsterPic;
+var $castPic;
+var $castPic2;
+
 var $monsterArray = [
     { name: 'Zombie1', image: './images/zombies/zombie_1.png' }, 
     { name: 'Zombie2', image: './images/zombies/zombie_2.png' }
   ];
   
+  var $castArray = [
+    { name: 'Cast1', image: './images/cast/rick.png' }, 
+    { name: 'Cast1', image: './images/cast/Michonne.png' }, 
+    { name: 'Cast1', image: './images/cast/daryl.png' }, 
+    { name: 'Cast1', image: './images/cast/Carol.png' }, 
+    { name: 'Cast1', image: './images/cast/carl.png' }, 
+  ];
   
-  
+function randomPlayerPic(){
 
+    $castPic = $castArray[Math.floor(Math.random() * $castArray.length)];
+    $castPic2 = $castArray[Math.floor(Math.random() * $castArray.length)];
+    $('#player1Window').html('<img src="'+$castPic.image+'">')
+    $('#player2Window').html('<img src="'+$castPic2.image+'">')
+    
+
+}
 
 
 /*-----------------------END  MONSTER / PLAYER ARRAYS -------------------*/
