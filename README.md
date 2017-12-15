@@ -1,6 +1,6 @@
 #Walking Dead: Zombie Rampage<h2>
 
-![](/Users/markaustin/Desktop/Screen Shot 2017-12-15 at 9.17.46 AM.png)
+![Screen.png)
 
 ##A Two Player Shoot'Em Up Game
 
