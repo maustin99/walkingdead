@@ -1,7 +1,6 @@
 #Walking Dead: Zombie Rampage<h2>
 
-![Screen.png)
-
+![](Screen.png)
 ##A Two Player Shoot'Em Up Game
 
 Two players compete - or one player challenges themselves - to see how many zombies they can shoot....and survive!
