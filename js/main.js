@@ -63,7 +63,33 @@ function resetGameBoard(){
 }
 
 
+
+//initialize sound -----------------------------
+
+var myMainMusic;
+var myGunSound;
+var myGrenadeSound;
+var myGrowlOne;
+var myGrowlTwo;
+var firstAidSound;
+var spaceAlarm;
+var suspenseMusic;
+
+ myMainMusic = new Audio("sound/walking_theme.mp3");
+ myGunSound = new Audio("sound/machine_gun_short.mp3");
+ myGrenadeSound = new Audio("sound/future_grenade.mp3");
+ myGrowlOne = new Audio("sound/zombie_growl_005.mp3");
+ myGrowlTwo = new Audio("sound/zombie_growl_007.mp3");
+ firstAidSound = new Audio("sound/first_aid_sound.mp3");
+ spaceAlarm = new Audio("sound/space alarm_112.mp3");
+ suspenseMusic = new Audio("sound/suspense_music.mp3");
+
+// END initialize sound ------------------------
+
+
 function splashBegin(){
+
+    myMainMusic.play();
     randomBackgroundPic()
     $splashPage.on('click', playerOneLoad)
     $('.startAgain').on('click', playerOneLoad)
@@ -78,11 +104,13 @@ function splashBegin(){
     
     $nuke.on('click', function(){
         nukeEmAll()
+        myGrenadeSound.play()
         $nuke.fadeOut()
     })
 
     $firstAid.on('click', function(){
         masterHealth += 10
+        firstAidSound.play()
         displayFirstAid()
     })
     
@@ -109,7 +137,10 @@ function playerOneLoad(){
     $readyPlayerOneDiv.fadeIn()
     currentPlayer = 'playerOne'
     currentPlayerStatus = 'alive'
-    
+    myGrowlOne.pause()
+    myGrowlTwo.pause()
+    suspenseMusic.pause()
+    myMainMusic.pause()
     
    
     
@@ -120,6 +151,7 @@ function playerOneLoad(){
 function playerOneStart(){
    
     $readyPlayerOneDiv.fadeOut()
+    suspenseMusic.play()
 
     currentPlayerHighlight()
     
@@ -132,6 +164,8 @@ function playerOneStart(){
 function playerOneDied(){
     currentPlayerStatus = 'dead'
     $youDiedDiv.fadeIn()
+
+    spaceAlarm.pause()
 }
 
 
@@ -150,6 +184,9 @@ function playerTwoLoad(){
     currentPlayerStatus = 'alive'
     
      currentPlayerHighlight()
+     myGrowlOne.pause()
+     myGrowlTwo.pause()
+     suspenseMusic.pause()
 }
 
 function playerTwoStart(){
@@ -158,13 +195,15 @@ function playerTwoStart(){
     creatureCreate()           // START GAME
     gateKeeper = 'open'
     startMasterClock()     //START MASTER CLOCK
+    suspenseMusic.play()
 }
 
 function playerTwoDied(){
     currentPlayerStatus = 'dead'
     $outOfTimeP2Div.fadeOut()
     $endOfGameDiv.fadeIn()
-    
+    spaceAlarm.pause()
+
     if ($globalPlayerOnePoints > $globalPlayerTwoPoints){
         $('#winnerDeclare').html('Player One Wins!')
     }else if($globalPlayerOnePoints < $globalPlayerTwoPoints){
@@ -179,11 +218,13 @@ function playerTwoDied(){
 function outOfTimeP1(){
     currentPlayerStatus = 'dead'
     $outOfTimeP1Div.fadeIn()
+    spaceAlarm.pause()
 }
 
 function outOfTimeP2(){
     currentPlayerStatus = 'dead'
     $outOfTimeP2Div.fadeIn()
+    spaceAlarm.pause()
 }
 
 //=================================
@@ -340,6 +381,8 @@ function damageHuman(){             // MASTER HEALTH =====================
 
     dangerHealthDisplay()
 
+    myGrowlTwo.play()
+    
     //$healthDisplay.text('Health:   ' + masterHealth)
     console.log('MASTER Health  ' + currentPlayer + '  ' + masterHealth)
 
@@ -387,6 +430,7 @@ function dangerHealthDisplay(){
               right: '250px', opacity: '1'
 
         } , 2000 )
+        spaceAlarm.play()
     
     }else if(masterHealth >= 90){
         $('.dangerSign').html('DANGER')
@@ -394,6 +438,7 @@ function dangerHealthDisplay(){
             right: '150px', opacity: '0'
 
         } , 1000 )
+        spaceAlarm.pause()
     }
 
 
@@ -577,9 +622,10 @@ function animateDiv(){
     
     if( masterHealth > 0 || currentPlayerStatus != 'dead'){
         animateDiv()  // call animate again
+        myGrowlOne.play()
     } else{
         console.log('creature animation has halted')
-        
+        myGrowlOne.pause()        
 
 
     } //END else
@@ -672,6 +718,11 @@ var $backgroundArray = [
 
 // test listeners:
 
+
+$('body').on('click', '#mainGameWindow', function() {
+    myGunSound.play()
+})
+
 $('body').on('click', '.badCreatures', function() {
     // any time you click on a creature div, be able to refer to its associated JS obj with
     // $(this).data('jsobj')
@@ -679,6 +730,9 @@ $('body').on('click', '.badCreatures', function() {
     var creatureObj = $(this).data('jsobj')
     
     creatureObj.reduceLife()
+
+  
+    
     console.log(creatureObj)
 })
 
